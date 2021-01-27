@@ -101,7 +101,7 @@ return await Parser.Default.ParseArguments<UpdateOptions>(args)
 	.MapResult(async options =>
 	{
 		var httpClient = new HttpClient();
-		if (TryGetAuthConfig(options.AuthConfigPath, out var authConfig))
+		if (TryGetAuthConfig(options.AuthPath, out var authConfig))
 		{
 			if (await VerifyCloudflareAuthAsync(httpClient, authConfig))
 			{
@@ -151,8 +151,8 @@ return await Parser.Default.ParseArguments<UpdateOptions>(args)
 
 class UpdateOptions
 {
-	[Option("config-path", Required = true, HelpText = "Path to the configuration file that contains your Cloudflare API Token.")]
-	public string AuthConfigPath { get; set; }
+	[Option("auth-path", Required = true, HelpText = "Path to the authentication file that contains your Cloudflare API Token.")]
+	public string AuthPath { get; set; }
 	[Option("zone", Required = true, HelpText = "The Cloudflare Zone Identifier.")]
 	public string ZoneIdentifier { get; set; }
 	[Option("name", Required = true, HelpText = "The DNS name to use in the zone.")]
@@ -167,20 +167,20 @@ class UpdateOptions
 	{
 		new Example("Common", new UpdateOptions 
 		{
-			AuthConfigPath = "~/authconfig.json",
+			AuthPath = "~/cfauth.json",
 			ZoneIdentifier = "C6tbxEC4nDBzP6sKYJ7gdnvyQXi3VKDq",
 			DnsName = "test.example.org"
 		}),
 		new Example("Using a custom IP provider", new UpdateOptions
 		{
-			AuthConfigPath = "~/authconfig.json",
+			AuthPath = "~/cfauth.json",
 			ZoneIdentifier = "C6tbxEC4nDBzP6sKYJ7gdnvyQXi3VKDq",
 			DnsName = "test.example.org",
 			IpProviderUrl = "https://echo.example.org"
 		}),
 		new Example("Using a custom TTL", new UpdateOptions
 		{
-			AuthConfigPath = "~/authconfig.json",
+			AuthPath = "~/cfauth.json",
 			ZoneIdentifier = "C6tbxEC4nDBzP6sKYJ7gdnvyQXi3VKDq",
 			DnsName = "test.example.org",
 			TimeToLive = 360
