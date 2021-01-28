@@ -80,9 +80,10 @@ jobs:
     - name: Build MacOS (x64)
       if: matrix.os == 'macOS-latest'
       run: dotnet publish -c Release /p:Version=${{env.BUILD_VERSION}} --output ${{env.BUILD_ARTIFACT_PATH}}/x64 -r osx-x64 -p:PublishSingleFile=true --self-contained true
-    - name: Build MacOS (ARM64)
-      if: matrix.os == 'macOS-latest'
-      run: dotnet publish -c Release /p:Version=${{env.BUILD_VERSION}} --output ${{env.BUILD_ARTIFACT_PATH}}/arm64 -r osx-arm64 -p:PublishSingleFile=true --self-contained true
+# ARM builds on Mac are not yet supported
+#    - name: Build MacOS (ARM64)
+#      if: matrix.os == 'macOS-latest'
+#      run: dotnet publish -c Release /p:Version=${{env.BUILD_VERSION}} --output ${{env.BUILD_ARTIFACT_PATH}}/arm64 -r osx-arm64 -p:PublishSingleFile=true --self-contained true
 
     - name: Publish artifacts
       uses: actions/upload-artifact@v2
