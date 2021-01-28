@@ -1,6 +1,8 @@
 # DDNS4Me
 _A Dynamic DNS Command Line tool for use with Cloudflare_
 
+![Build](https://github.com/TurnerSoftware/DDNS4Me/workflows/Build/badge.svg)
+
 ## Overview
 
 DDNS4Me is a basic CLI tool that allows updating of Cloudflare DNS "A" Records to reflect your current public IP address.
