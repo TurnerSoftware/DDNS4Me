@@ -60,9 +60,9 @@ jobs:
       BUILD_VERSION: ${{needs.version.outputs.BuildVersion}}
     strategy:
       matrix:
-        runtimeIdentifier: [windows-x64, linux-x64, linux-arm64]
+        runtimeIdentifier: [win-x64, linux-x64, linux-arm64]
         include:
-          - runtimeIdentifier: windows-x64
+          - runtimeIdentifier: win-x64
             os: windows-latest
             
           - runtimeIdentifier: linux-x64
