@@ -54,10 +54,23 @@ jobs:
 
   build:
     name: Build application
-    runs-on: ubuntu-latest
+    runs-on: ${{matrix.os}}
     needs: version
     env:
       BUILD_VERSION: ${{needs.version.outputs.BuildVersion}}
+    strategy:
+      matrix:
+        runtimeIdentifier: [windows-x64, linux-x64, linux-arm64]
+        include:
+          - runtimeIdentifier: windows-x64
+            os: windows-latest
+            
+          - runtimeIdentifier: linux-x64
+            os: ubuntu-latest
+            
+          - runtimeIdentifier: linux-arm64
+            os: ubuntu-latest
+
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -66,10 +79,10 @@ jobs:
       run: dotnet --version && dotnet nuget list source && dotnet restore --verbosity normal
 
     - name: Self-contained build
-      run: dotnet publish -c Release /p:Version=${{env.BUILD_VERSION}} --output ${{env.BUILD_ARTIFACT_PATH}} -p:PublishSingleFile=true --self-contained true
+      run: dotnet publish -c Release /p:Version=${{env.BUILD_VERSION}} --output ${{env.BUILD_ARTIFACT_PATH}} -r ${{matrix.runtimeIdentifier}} -p:PublishSingleFile=true --self-contained true
 
     - name: Publish artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: ${{matrix.os}}
+        name: ${{matrix.runtimeIdentifier}}
         path: ${{env.BUILD_ARTIFACT_PATH}}
